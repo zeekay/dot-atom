@@ -1,4 +1,4 @@
-# atom
+# dot-atom
 Just a bunch of dotfiles.
 
 ## Install
