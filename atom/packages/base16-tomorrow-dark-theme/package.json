@@ -1,8 +1,8 @@
 {
   "name": "base16-tomorrow-dark-theme",
   "theme": "syntax",
-  "version": "0.14.0",
-  "description": "Base16 theme for Atom",
+  "version": "0.21.0",
+  "description": "Base16 dark theme for Atom",
   "repository": {
     "type": "git",
     "url": "https://github.com/atom/base16-tomorrow-dark-theme"
@@ -17,10 +17,10 @@
     "url": "https://github.com/atom/base16-tomorrow-dark-theme/issues"
   },
   "homepage": "https://github.com/atom/base16-tomorrow-dark-theme",
-  "_id": "base16-tomorrow-dark-theme@0.14.0",
+  "_id": "base16-tomorrow-dark-theme@0.21.0",
   "dist": {
-    "shasum": "ac76fbe08e904d64e2998440c0f37afcf600f843"
+    "shasum": "256c8bf33acbd928770b0c7fb8cfcaa22d80be19"
   },
-  "_resolved": "/var/folders/tc/y7g20_8s13v0c6221lzx5zbw0000gn/T/d-114320-52986-qem259/package.tgz",
-  "_from": "/var/folders/tc/y7g20_8s13v0c6221lzx5zbw0000gn/T/d-114320-52986-qem259/package.tgz"
+  "_resolved": "/var/folders/_p/8y1rmmg555v665w2mxwzqzn40000gn/T/d-114713-1855-13kvtf5/package.tgz",
+  "_from": "/var/folders/_p/8y1rmmg555v665w2mxwzqzn40000gn/T/d-114713-1855-13kvtf5/package.tgz"
 }

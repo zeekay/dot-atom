@@ -62,15 +62,6 @@
   }
 }
 
-.editor .search-results .marker .region {
-  background-color: transparent;
-  border: 1px solid @syntax-result-marker-color;
-}
-
-.editor .search-results .marker.current-result .region {
-  border: 1px solid @syntax-result-marker-color-selected;
-}
-
 .comment {
   color: @light-gray;
 }
@@ -166,14 +157,11 @@
 }
 
 .punctuation {
-
   &.definition {
     &.comment {
       color: @light-gray;
     }
 
-    &.string,
-    &.variable,
     &.parameters,
     &.array {
       color: @syntax-text-color;
@@ -198,7 +186,6 @@
   &.section.embedded {
     color: @dark-red;
   }
-
 }
 
 .support {
@@ -264,6 +251,10 @@
     background-color: #373b41;
     color: @syntax-text-color;
   }
+
+  &.tag {
+    color: @syntax-text-color;
+  }
 }
 
 .none {
@@ -310,10 +301,20 @@
   }
 }
 
-.source.gfm .markup {
-  -webkit-font-smoothing: auto;
-  &.heading {
-    color: @red;
+.source.gfm {
+  .markup {
+    -webkit-font-smoothing: auto;
+    &.heading {
+      color: @red;
+    }
+
+    &.link {
+      color: @blue;
+    }
+  }
+
+  .link .entity {
+    color: @cyan;
   }
 }
 

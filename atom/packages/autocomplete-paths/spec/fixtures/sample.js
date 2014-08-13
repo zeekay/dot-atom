@@ -1,1 +1,1 @@
-console.log("ohai");
+"use strict";

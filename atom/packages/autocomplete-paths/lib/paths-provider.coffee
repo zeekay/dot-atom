@@ -2,12 +2,12 @@
 {Provider, Suggestion} = require "autocomplete-plus"
 fuzzaldrin = require "fuzzaldrin"
 _ = require "underscore-plus"
-path = require "path"
+path = require "./utils/path"
 fs = require "fs"
 
 module.exports =
 class PathsProvider extends Provider
-  wordRegex: /(\.+)?\/([a-zA-Z0-9\.\/_-]+)?/g
+  wordRegex: /[a-zA-Z0-9\.\/_-]*\/[a-zA-Z0-9\.\/_-]*/g
   exclusive: true
   buildSuggestions: ->
     selection = @editor.getSelection()
@@ -19,52 +19,55 @@ class PathsProvider extends Provider
     return suggestions
 
   findSuggestionsForPrefix: (prefix) ->
-    basePath = path.dirname @editor.getPath()
+    editorPath = @editor.getPath()
+    return [] unless editorPath
 
-    prefixFileName = path.basename prefix
-    prefixBasePath = path.dirname prefix
+    basePath = path.dirname editorPath
+    prefixPath = path.resolve basePath, prefix
 
-    # path.basename returns the last portion of a path, but
-    # never "nothing" (in case of a trailing slash)
-    # In this case, add the filename to the path and let
-    # the filename be empty
-    if prefix.match /[\/|\\]$/
-      prefixBasePath = path.join prefixBasePath, prefixFileName
-      prefixFileName = ""
+    directory = path.dirname prefixPath
 
-    prefixPath = path.resolve basePath, prefixBasePath
-    fullPrefixPath = path.resolve basePath, prefix
+    # Check if directory exists
+    exists = fs.existsSync directory
+    return [] unless exists
 
-    stat = fs.statSync prefixPath
+    # Is this actually a directory?
+    stat = fs.statSync directory
     return [] unless stat.isDirectory()
 
-    files = fs.readdirSync prefixPath
-    results = fuzzaldrin.filter files, prefixFileName
+    # Get files
+    try
+      files = fs.readdirSync directory
+    catch e
+      return []
+    prefixFilename = path.basename prefixPath
+    results = fuzzaldrin.filter files, prefixFilename
 
     suggestions = for result in results
-      filePath = path.resolve basePath, prefixPath, result
-      stat = fs.statSync filePath
+      resultPath = path.resolve directory, result
+
+      # Check for type
+      stat = fs.statSync resultPath
       if stat.isDirectory()
         label = "Dir"
         result += "/"
-      else
+      else if stat.isFile()
         label = "File"
+      else
+        continue
 
-      # Skip if result path and prefix path are the same
-      continue if filePath is fullPrefixPath
+      prefixDirectory = path.dirname prefix
+      body = path.join prefixDirectory, result
+      body = path.normalize body
 
-      # If base path starts with a ., add
-      # another slash to the result path
-      resultPath = prefixBasePath
-      unless resultPath.match /[\/|\\]$/
-        resultPath += path.sep
+      continue if body is prefix
 
       new Suggestion this,
         word: result
         prefix: prefix
         label: label
         data:
-          body: resultPath + result
+          body: body
 
     return suggestions
 
