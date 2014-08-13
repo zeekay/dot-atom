@@ -1,4 +1,4 @@
-require "./spec-helper"
+{triggerAutocompletion, buildIMECompositionEvent, buildTextInputEvent} = require "./spec-helper"
 {$, EditorView, WorkspaceView} = require 'atom'
 _ = require "underscore-plus"
 AutocompleteView = require '../lib/autocomplete-view'
@@ -206,6 +206,33 @@ describe "Autocomplete", ->
           advanceClock completionDelay
           expect(editorView.find(".autocomplete-plus")).not.toExist()
 
+        it "should not update completions when composing characters", ->
+          # Use the React editor
+          editor = atom.workspace.openSync("sample.js")
+          editorView = atom.workspaceView.getActiveView()
+          autocomplete = new AutocompleteView editorView
+
+          editorView.attachToDom()
+          triggerAutocompletion editor
+          advanceClock completionDelay
+          autocompleteView = editorView.find(".autocomplete-plus").view()
+          inputNode = autocompleteView.hiddenInput[0]
+
+          spyOn(autocompleteView, 'setItems').andCallThrough()
+
+          inputNode.value = "~"
+          inputNode.setSelectionRange(0, 1)
+          inputNode.dispatchEvent(buildIMECompositionEvent('compositionstart', target: inputNode))
+          inputNode.dispatchEvent(buildIMECompositionEvent('compositionupdate', data: "~", target: inputNode))
+          advanceClock completionDelay
+
+          expect(autocompleteView.setItems).not.toHaveBeenCalled()
+
+          inputNode.dispatchEvent(buildIMECompositionEvent('compositionend', target: inputNode))
+          editorView[0].firstChild.dispatchEvent(buildTextInputEvent(data: 'ã', target: inputNode))
+
+          expect(editor.lineForBufferRow(13)).toBe 'fã'
+
       describe "accepting suggestions", ->
         describe "when pressing enter while suggestions are visible", ->
           it "inserts the word and moves the cursor to the end of the word", ->
@@ -243,7 +270,7 @@ describe "Autocomplete", ->
 
             expect(editorView.find(".autocomplete-plus")).not.toExist()
 
-      describe "move-up event", ->
+      describe "select-previous event", ->
         it "selects the previous item in the list", ->
           editorView.attachToDom()
 
@@ -256,15 +283,15 @@ describe "Autocomplete", ->
           expect(editorView.find(".autocomplete-plus li:eq(2)")).not.toHaveClass("selected")
           expect(editorView.find(".autocomplete-plus li:eq(3)")).not.toHaveClass("selected")
 
-          # Accept suggestion
-          autocomplete.trigger "core:move-up"
+          # Select previous item
+          autocomplete.trigger "autocomplete-plus:select-previous"
 
           expect(editorView.find(".autocomplete-plus li:eq(0)")).not.toHaveClass("selected")
           expect(editorView.find(".autocomplete-plus li:eq(1)")).not.toHaveClass("selected")
           expect(editorView.find(".autocomplete-plus li:eq(2)")).not.toHaveClass("selected")
           expect(editorView.find(".autocomplete-plus li:eq(3)")).toHaveClass("selected")
 
-      describe "move-down event", ->
+      describe "select-next event", ->
         it "selects the next item in the list", ->
           editorView.attachToDom()
 
@@ -277,8 +304,8 @@ describe "Autocomplete", ->
           expect(editorView.find(".autocomplete-plus li:eq(2)")).not.toHaveClass("selected")
           expect(editorView.find(".autocomplete-plus li:eq(3)")).not.toHaveClass("selected")
 
-          # Accept suggestion
-          autocomplete.trigger "core:move-down"
+          # Select next item
+          autocomplete.trigger "autocomplete-plus:select-next"
 
           expect(editorView.find(".autocomplete-plus li:eq(0)")).not.toHaveClass("selected")
           expect(editorView.find(".autocomplete-plus li:eq(1)")).toHaveClass("selected")
@@ -420,3 +447,30 @@ describe "Autocomplete", ->
         advanceClock completionDelay
 
         expect(editorView.find(".autocomplete-plus")).not.toExist()
+
+    describe "HTML label support", ->
+      [autocompleteView, autocomplete] = []
+
+      it "should allow HTML in labels", ->
+        waitsForPromise ->
+          activationPromise
+            .then (pkg) =>
+              autocomplete = pkg.mainModule
+              autocompleteView = autocomplete.autocompleteViews[0]
+
+        runs ->
+          editorView = atom.workspaceView.getActiveView()
+          editor = editorView.getEditor()
+
+          # Register the test provider
+          testProvider = new TestProvider(editorView)
+          autocomplete.registerProviderForEditorView testProvider, editorView
+
+          editorView.attachToDom()
+          editor.moveCursorToBottom()
+          editor.insertText "o"
+
+          advanceClock completionDelay
+
+          expect(autocompleteView.list.find("li:eq(0) .label")).toHaveHtml "<span style=\"color: red\">ohai</span>"
+          expect(autocompleteView.list.find("li:eq(0)")).toHaveClass "ohai"

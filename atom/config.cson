@@ -11,8 +11,8 @@
   'fontSize': 12
 'core':
   'themes': [
-    'atom-mac-theme'
-    'base16-tomorrow-dark-theme'
+    'ekini-like-ui'
+    'ekini-like'
   ]
   'ignoredNames': [
     '.git'

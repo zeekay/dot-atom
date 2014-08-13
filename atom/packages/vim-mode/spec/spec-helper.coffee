@@ -1,5 +1,4 @@
 {EditorView} = require 'atom'
-
 VimState = require '../lib/vim-state'
 VimMode  = require '../lib/vim-mode'
 
@@ -24,12 +23,26 @@ cacheEditor = (existingEditorView) ->
     editorView.addClass('vim-mode')
     editorView.vimState = new VimState(editorView)
 
-  existingEditorView or editorView
+  view = existingEditorView or editorView
+  history = view.editor.buffer.history
+  history.abortTransaction() if history.currentTransaction?
+  history.clearUndoStack()
+  view
+
+mockPlatform = (editorView, platform) ->
+  wrapper = document.createElement('div')
+  wrapper.className = platform
+  wrapper.appendChild(editorView[0])
+
+unmockPlatform = (editorView) ->
+  editorView[0].parentNode.removeChild(editorView[0])
 
 keydown = (key, {element, ctrl, shift, alt, meta, raw}={}) ->
   dispatchKeyboardEvent = (target, eventArgs...) ->
     e = document.createEvent('KeyboardEvent')
     e.initKeyboardEvent eventArgs...
+    # 0 is the default, and it's valid ASCII, but it's wrong.
+    Object.defineProperty(e, 'keyCode', get: -> undefined) if e.keyCode is 0
     target.dispatchEvent e
 
   dispatchTextEvent = (target, eventArgs...) ->
@@ -48,4 +61,4 @@ keydown = (key, {element, ctrl, shift, alt, meta, raw}={}) ->
        element.value += key
   dispatchKeyboardEvent(element, 'keyup', eventArgs...)
 
-module.exports = { keydown, cacheEditor }
+module.exports = { keydown, cacheEditor, mockPlatform, unmockPlatform }

@@ -1,3 +1,50 @@
+## HEAD
+* Ctrl-c for command mode on mac only @sgtpepper43
+* Add css to status bar mode for optional custom styling @e-jigsaw
+* Implement `-`, `+`, and `enter` @roryokane
+* Fix problem undo'ing in insert mode @bhuga
+ 
+## 0.11.1
+* Fix interaction with autocomplete-plus @klorenz
+
+## 0.11.0
+* Fix `gg` and `G` in visual mode @cadwallion
+* Implement `%` @carlosdcastillo
+* Add ctags keybindings @tmm1
+* Fix tracking of marks when buffer changes @carlosdcastillo
+* Fix off-by-one error for characterwise puts @carlosdcastillo
+* Add support for undo and repeat to typing operations @bhuga
+* Fix keybindings for some OSes @mcnicholls
+* Fix visual `ngg` @tony612
+* Implement i{, i(, and i" @carlosdcastillo
+* Fix off by one errors while selecting with j and k @fotanus
+* Implement 'desired cursor column' behavior @iamjwc
+
+## 0.10.0
+* Fix E in visual mode @tony612
+* Implement `` @guanlun
+* Fix broken behavior when enabling/disabling @cadwallion
+* Enable search in visual mode @romankuznietsov
+* Fix end-of-line movement @abijr
+* Fix behavior of change current line `cc` in various corner cases. @jcurtis
+* Fix some corner cases of `w` @abijr
+* Don't hide cursor in visual mode @dyross
+
+## 0.9.0 - Lots of new features
+* Enable arrow keys in visual mode @fholgado
+* Additional bindings for split pane movement @zenhob
+* Fix search on invalid regex @bhuga
+* Add `s` alias to visual mode @tony612
+* Display current mode in the status bar @gblock0
+* Add marks (m, `, ') @danzimm
+* Add operator-pending mode and a single text object (`iw`) @nathansobo, @jroes
+* Add an option to start in insert mode @viveksjain
+* Fix weird behavior when pasting at the end of a file @msvbg
+* More fixes for corner cases in paste behavior @SKAhack
+* Implement * and # @roman
+* Implement ~ @badunk
+* Implement t and T @udp
+
 ## 0.8.1 - Small goodies
 * Implement `ctrl-e` and `ctrl-y` @dougblack
 * Implement `/`, `?`, `n` and `N` @bhuga
@@ -10,6 +57,8 @@
 * Implement `E` motion @tony612
 * Implement basic `ctrl-f` and `ctrl-b` support @ciarand
 * Added `+`, `*` and `%` registers @cschneid
+* Improved `^` movement when already at the first character @zenhob
+* Fix off-by-one error for `15gg` @tony612
 
 ## 0.8.0 - Keep rocking
 * API Fixes for Atom 0.62 @bhuga
@@ -49,7 +98,7 @@
 * Compatibility with Atom 0.50.0
 
 ## 0.5.0 - Updates
-* Switches apm db to cloudant from iriscouch
+* Switches apm db to buttant from iriscouch
 
 ## 0.4.0 - Updates
 * Compatibilty with Atom 26

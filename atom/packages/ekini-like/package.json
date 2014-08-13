@@ -1,0 +1,26 @@
+{
+  "name": "ekini-like",
+  "theme": "syntax",
+  "version": "0.6.0",
+  "description": "A dark scheme with reduced glare and improved readability",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dsandstrom/atom-ekini-like-theme.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "readme": "# Ekini Like - An Atom Syntax Theme\n\n\n###### Originally based on [Ekini Edit](http://blog.ekini.net/2009/11/19/ekini-edit-a-gedit-scheme-that-is-dark-and-suitable-for-low-light-conditions/), a gedit theme created by Wenbert Del Rosario.\n\nWenbert describes it as:\n> A dark scheme with reduced glare and improved readability...,\n> it is based on the Zendburn and Thankful Eyes.\n\nI say it looks like a candy necklace.\n\nIt is green heavy (which is my favorite color), with yellow, white, blue, and pink highlights.\nI think it looks best with [Ekini Like UI Theme](https://atom.io/themes/ekini-like-ui).\n\n![Ruby Sreenshot](https://github.com/dsandstrom/atom-ekini-like-theme/raw/master/screen-ruby.png)\n![Html Sreenshot](https://github.com/dsandstrom/atom-ekini-like-theme/raw/master/screen-html.png)\n\n### Note\nI created a [Sublime Text/TextMate theme](https://github.com/dsandstrom/EkiniScheme)\nand used `apm` to convert to an Atom theme.  There is also a [vim conversion](http://www.vim.org/scripts/script.php?script_id=3159).\nThe font is *Inconsolata*.\n\n### Todo\nIt's a simple conversion, so I need to spend some time on it.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/dsandstrom/atom-ekini-like-theme/issues"
+  },
+  "homepage": "https://github.com/dsandstrom/atom-ekini-like-theme",
+  "_id": "ekini-like@0.6.0",
+  "dist": {
+    "shasum": "50e3497036f7688003c11d6316a07165fc866f83"
+  },
+  "_resolved": "/var/folders/_p/8y1rmmg555v665w2mxwzqzn40000gn/T/d-114713-1798-1r64d3v/package.tgz",
+  "_from": "/var/folders/_p/8y1rmmg555v665w2mxwzqzn40000gn/T/d-114713-1798-1r64d3v/package.tgz"
+}

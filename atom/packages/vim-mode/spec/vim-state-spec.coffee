@@ -1,4 +1,5 @@
 helpers = require './spec-helper'
+VimState = require '../lib/vim-state'
 
 describe "VimState", ->
   [editor, editorView, vimState] = []
@@ -18,10 +19,20 @@ describe "VimState", ->
     options.element ?= editorView[0]
     helpers.keydown(key, options)
 
+  commandModeInputKeydown = (key, opts = {}) ->
+    opts.element = editor.commandModeInputView.editor.find('input').get(0)
+    opts.raw = true
+    keydown(key, opts)
+
   describe "initialization", ->
-    it "puts the editor in command-mode initially", ->
+    it "puts the editor in command-mode initially by default", ->
       expect(editorView).toHaveClass 'vim-mode'
       expect(editorView).toHaveClass 'command-mode'
+
+    it "puts the editor in insert-mode if startInInsertMode is true", ->
+      atom.config.set 'vim-mode.startInInsertMode', true
+      editorView.vimState = new VimState(editorView) # Reload vim-mode
+      expect(editorView).toHaveClass 'insert-mode'
 
   describe "command-mode", ->
     describe "when entering an insertable character", ->
@@ -104,8 +115,21 @@ describe "VimState", ->
         it "allows the cursor to be placed on the \n character", ->
           expect(editor.getCursorScreenPosition()).toEqual [1, 0]
 
+    describe 'with character-input operations', ->
+      beforeEach -> editor.setText('012345\nabcdef')
+
+      it 'properly clears the opStack', ->
+        keydown('d')
+        keydown('r')
+        expect(vimState.mode).toBe 'command'
+        expect(vimState.opStack.length).toBe 0
+        commandModeInputKeydown('escape')
+        keydown('d')
+        expect(editor.getText()).toBe '012345\nabcdef'
+
   describe "insert-mode", ->
-    beforeEach -> keydown('i')
+    beforeEach ->
+      keydown('i')
 
     describe "with content", ->
       beforeEach -> editor.setText("012345\n\nabcdef")
@@ -135,12 +159,24 @@ describe "VimState", ->
 
       expect(editorView).toHaveClass 'command-mode'
       expect(editorView).not.toHaveClass 'insert-mode'
+      expect(editorView).not.toHaveClass 'visual-mode'
 
     it "puts the editor into command mode when <ctrl-c> is pressed", ->
+      helpers.mockPlatform(editorView, 'platform-darwin')
       keydown('c', ctrl: true)
+      helpers.unmockPlatform(editorView)
 
       expect(editorView).toHaveClass 'command-mode'
       expect(editorView).not.toHaveClass 'insert-mode'
+      expect(editorView).not.toHaveClass 'visual-mode'
+
+    it "puts the editor into command mode before undoing, saving work", ->
+      editor.setText("012345\n\nabcdef")
+      editorView.trigger("core:undo")
+      expect(editorView).toHaveClass "command-mode"
+      expect(editor.getText()).toEqual("")
+      editorView.trigger("core:redo")
+      expect(editor.getText()).toEqual("012345\n\nabcdef")
 
   describe "visual-mode", ->
     beforeEach -> keydown('v')
@@ -178,3 +214,39 @@ describe "VimState", ->
 
       it "operate on the current selection", ->
         expect(editor.getSelection().getText()).toEqual ''
+
+  describe "marks", ->
+    beforeEach ->  editor.setText("text in line 1\ntext in line 2\ntext in line 3")
+
+    it "basic marking functionality", ->
+      editor.setCursorScreenPosition([1, 1])
+      keydown('m')
+      commandModeInputKeydown('t')
+      expect(editor.getText()).toEqual "text in line 1\ntext in line 2\ntext in line 3"
+      editor.setCursorScreenPosition([2, 2])
+      keydown('`')
+      commandModeInputKeydown('t')
+      expect(editor.getCursorScreenPosition()).toEqual [1,1]
+
+    it "real (tracking) marking functionality", ->
+      editor.setCursorScreenPosition([2, 2])
+      keydown('m')
+      commandModeInputKeydown('q')
+      editor.setCursorScreenPosition([1, 2])
+      keydown('o')
+      keydown('escape')
+      keydown('`')
+      commandModeInputKeydown('q')
+      expect(editor.getCursorScreenPosition()).toEqual [3,2]
+
+    it "real (tracking) marking functionality", ->
+      editor.setCursorScreenPosition([2, 2])
+      keydown('m')
+      commandModeInputKeydown('q')
+      editor.setCursorScreenPosition([1, 2])
+      keydown('d')
+      keydown('d')
+      keydown('escape')
+      keydown('`')
+      commandModeInputKeydown('q')
+      expect(editor.getCursorScreenPosition()).toEqual [1,2]

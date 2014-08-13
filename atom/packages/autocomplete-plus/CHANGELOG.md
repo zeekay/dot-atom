@@ -1,3 +1,33 @@
+0.20.0 (May 20 2014)
+====================
+
+* Added an `renderLabelAsHtml` option to the `Suggestion` class that specifies whether the label for this suggestion should be rendered as HTML or not (default: false)
+
+0.19.0 (May 10 2014)
+====================
+
+* Allow hyphens in wordlist. (#64)
+* Add new words to wordlist when a special character has been entered. (#63)
+* Cancel autocompletion when no suggestions are available. (#65)
+
+0.18.0 (May 8 2014)
+===================
+
+* Refocus editor when hitting enter
+* Cancel autocompletion when entering space
+* Fix a bug that occurred when duplicating an editor (thanks @yosisa)
+
+0.15.0 (Apr 25 2014)
+====================
+
+* Fix a bug that caused a stack overflow when using spanish / italian / korean keyboard layouts (Issues #22 and #40)
+* `autocomplete-plus:select-next`, `autocomplete-plus:select-previous` and `autocomplete-plus:cancel` keymaps
+
+0.14.0 (Apr 13 2014)
+====================
+
+* Fix provider unregistration API (#unregisterProviderFromEditorView(Provider, EditorView) -> #unregisterProvider(Provider))
+
 0.13.0 (Apr 13 2014)
 ====================
 
