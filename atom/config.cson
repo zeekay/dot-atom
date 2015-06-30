@@ -1,23 +1,20 @@
-'exception-reporting':
-  'userId': '98295608-afca-e050-81cf-334c9c527586'
-'release-notes':
-  'viewedVersion': '0.89.0'
-'welcome':
-  'showOnStartup': false
-'metrics':
-  'userId': '5b8947cb261ad71d62ba10772a0ba4deb6529a7c'
-'editor':
-  'fontFamily': 'Inconsolata-dz'
-  'fontSize': 12
-  'invisibles': {}
-'core':
-  'themes': [
-    'ekini-like-ui'
-    'ekini-like'
-  ]
-  'ignoredNames': [
-    '.git'
-    '.svn'
-    '.DS_Store'
-  ]
-  'audioBeep': false
+"*":
+  "exception-reporting":
+    userId: "98295608-afca-e050-81cf-334c9c527586"
+  "release-notes":
+    viewedVersion: "0.89.0"
+  welcome:
+    showOnStartup: false
+  metrics:
+    userId: "5b8947cb261ad71d62ba10772a0ba4deb6529a7c"
+  editor:
+    fontFamily: "Inconsolata-dz"
+    fontSize: 12
+    invisibles: {}
+  core:
+    ignoredNames: [
+      ".git"
+      ".svn"
+      ".DS_Store"
+    ]
+    audioBeep: false

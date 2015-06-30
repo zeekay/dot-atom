@@ -1,3 +1,5 @@
 atom/storage
 npm-debug.log
 atom/.node-gyp
+atom/packages
+atom/.apm
