@@ -18,3 +18,5 @@
       ".DS_Store"
     ]
     audioBeep: false
+  "vim-mode":
+    useClipboardAsDefaultRegister: true
