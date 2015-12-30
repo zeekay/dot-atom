@@ -9,7 +9,7 @@ Vim-mod, minor aesthetic changes.
 Clone and symlink or install with [ellipsis][ellipsis]:
 
 ```
-$ ellipsis install atom
+$ ellipsis install zeekay/atom
 ```
 
 [atom]:     http://atom.io
