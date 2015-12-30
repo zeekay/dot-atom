@@ -3,18 +3,18 @@
 # atom ellipsis module
 
 # The following hooks can be defined to customize behavior of your module:
-# mod.install() {
+# pkg.install() {
 #     ellipsis.link_files $(pwd)
 # }
 
-# mod.push() {
+# pkg.push() {
 #     git.push
 # }
 
-# mod.pull() {
+# pkg.pull() {
 #     git.pull
 # }
 
-# mod.status() {
+# pkg.status() {
 #     git.status
 # }
