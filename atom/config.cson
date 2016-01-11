@@ -18,5 +18,9 @@
       ".DS_Store"
     ]
     audioBeep: false
+    themes: [
+      "one-light-ui"
+      "one-light-syntax"
+    ]
   "vim-mode":
     useClipboardAsDefaultRegister: true
