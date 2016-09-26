@@ -1,15 +1,27 @@
 "*":
   core:
     audioBeep: false
+    disabledPackages: [
+      "vim-mode"
+      "ex-mode"
+      "vim-mode-visual-block"
+      "atom-autocomplete-php"
+    ]
     ignoredNames: [
       ".git"
       ".svn"
       ".DS_Store"
     ]
+    telemetryConsent: "no"
+    themes: [
+      "spacegray-light-neue-ui"
+      "spacegray-light-syntax"
+    ]
   editor:
     fontFamily: "Inconsolata-dz"
-    fontSize: 12
+    fontSize: 11
     invisibles: {}
+    zoomFontWhenCtrlScrolling: true
   "exception-reporting":
     userId: "98295608-afca-e050-81cf-334c9c527586"
   metrics:
@@ -20,6 +32,9 @@
     interline: 2
   "release-notes":
     viewedVersion: "0.89.0"
-  "vim-mode": {}
+  "vim-mode":
+    useClipboardAsDefaultRegister: true
+    useSmartcaseForSearch: true
+    wrapLeftRightMotion: true
   welcome:
     showOnStartup: false
