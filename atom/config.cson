@@ -14,11 +14,10 @@
     ]
     telemetryConsent: "no"
     themes: [
-      "spacegray-light-neue-ui"
-      "spacegray-light-syntax"
+      "atom-light-ui"
+      "atom-light-syntax"
     ]
   editor:
-    fontFamily: "Inconsolata-dz"
     fontSize: 11
     invisibles: {}
     zoomFontWhenCtrlScrolling: true
